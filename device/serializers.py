@@ -5,7 +5,7 @@ from .models import Device, StateTemplate, StateTemplateField
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Device
-        fields = ['id', 'address']
+        fields = ['id', 'address', 'state_template']
 
 
 class TemplateFieldSerializer(serializers.ModelSerializer):
