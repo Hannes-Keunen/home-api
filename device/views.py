@@ -4,8 +4,8 @@ from rest_framework import viewsets
 
 import struct
 
-from .models import Device
-from .serializers import DeviceSerializer
+from .models import Device, StateTemplate
+from .serializers import DeviceSerializer, TemplateSerializer
 from . import rf24
 
 # Create your views here.
@@ -16,6 +16,14 @@ class DeviceViewSet(viewsets.ModelViewSet):
     """
     queryset = Device.objects.all()
     serializer_class = DeviceSerializer
+
+
+class TemplateViewSet(viewsets.ModelViewSet):
+    """
+    Retrieve or edit device state templates
+    """
+    queryset = StateTemplate.objects.all()
+    serializer_class = TemplateSerializer
 
 
 @csrf_exempt
