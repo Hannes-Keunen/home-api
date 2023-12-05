@@ -9,5 +9,5 @@ router.register('template', views.TemplateViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('<int:pk>/state', views.device_state),
+    path('device/<int:pk>/state', views.device_state),
 ]

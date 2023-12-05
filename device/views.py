@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 
+import json
 import struct
 
 from .models import Device, StateTemplate
@@ -35,8 +36,16 @@ def device_state(request, pk):
 
     if request.method == 'GET':
         return HttpResponse(status=201)
-    
+
     elif request.method == 'PUT':
-        state = int(request.body)
-        rf24.write(bytes(device.address, 'utf-8'), struct.pack('B', state))
+        state = json.loads(request.body)
+
+        payload = []
+        for field in device.state_template.fields.all():
+            if field.name not in state:
+                return HttpResponse(400)
+
+            payload.append(struct.pack('B', state[field.name]))
+
+        rf24.write(bytes(device.address, 'utf-8'), b''.join(payload))
         return HttpResponse(status=201)
